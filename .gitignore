@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.venv/
+venv/
+
+# Env files (never commit secrets like OPENAI_API_KEY)
+.env
+.env.*
+!.env.example
+
+# macOS
+.DS_Store
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+
+# Runtime data (created when backend runs locally)
+**/chroma_db/
+*.db
+*.sqlite
+*.sqlite3
+
+# Logs
+*.log
