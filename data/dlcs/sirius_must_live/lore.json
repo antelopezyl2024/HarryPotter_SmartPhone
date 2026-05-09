@@ -1,0 +1,64 @@
+{
+  "entries": [
+    {
+      "id": "sirius_001",
+      "title": "Sirius Black",
+      "tags": ["sirius", "black-family", "marauders"],
+      "text": "Sirius Black is godfather to Harry Potter and was lifelong friend to James Potter. Born into the ancient and noble House of Black, he openly rejected the family's pureblood supremacy as a teenager and ran away from home at sixteen. He was wrongfully imprisoned in Azkaban for twelve years on charges of betraying the Potters and murdering thirteen Muggles, both crimes actually committed by Peter Pettigrew. Sirius escaped Azkaban in 1993 and remains a fugitive of the Ministry of Magic, sheltering at his ancestral home, 12 Grimmauld Place. He is an Animagus who can transform into a large black dog."
+    },
+    {
+      "id": "mirror_001",
+      "title": "The Two-Way Mirror",
+      "tags": ["sirius", "harry", "communication"],
+      "text": "The two-way mirror is a paired magical object that allows two holders to see and speak with each other across any distance. Sirius gave Harry one of the pair as a Christmas gift in his fifth year, with a note inside the package telling Harry to use it if he needed to reach Sirius. Harry, unaware of what the package contained, did not open it until much later. The mirror's communication is private and direct — it bypasses owl post and Floo, and cannot be intercepted by the Ministry or by Umbridge. It is one of the few reliable channels between Harry at Hogwarts and Sirius at Grimmauld Place."
+    },
+    {
+      "id": "grimmauld_001",
+      "title": "12 Grimmauld Place",
+      "tags": ["sirius", "order", "house"],
+      "text": "Number 12, Grimmauld Place is the ancestral home of the Black family in London. Hidden under a Fidelius Charm and serving as headquarters of the Order of the Phoenix during the Second Wizarding War, it is unplottable from the outside and accessible only to those given the secret by its Secret-Keeper. Sirius inherited the house in 1995. The house is haunted by the screaming portrait of Walburga Black, Sirius's mother, and tended by Kreacher, the family's resentful house-elf."
+    },
+    {
+      "id": "dom_001",
+      "title": "The Department of Mysteries",
+      "tags": ["dom", "ministry", "unspeakables"],
+      "text": "The Department of Mysteries is a sealed division of the Ministry of Magic, located deep beneath Whitehall in London. Its researchers, called Unspeakables, study time, thought, death, love, and prophecy. Each subject is housed in its own chamber — the Time Room, the Brain Room, the Hall of Prophecies, the Death Chamber — connected by a circular antechamber whose doors rotate when entered, disorienting all who pass through. Most Unspeakables work in lifetime secrecy, and even other Ministry employees rarely know what is studied below."
+    },
+    {
+      "id": "veil_001",
+      "title": "The Veil in the Death Chamber",
+      "tags": ["dom", "veil", "death-chamber"],
+      "text": "In the Death Chamber, at the lowest level of the Department of Mysteries, stands a stone archway draped with a tattered, motionless veil. The veil sways without wind. Those who stand near it have reported hearing voices — whispers calling them through. To pass through the archway is to die: the body does not return, and no spell raised on the other side has ever been answered. Unspeakables believe the Veil is a true threshold between life and death, perhaps the only such threshold in the wizarding world."
+    },
+    {
+      "id": "prophecy_hall_001",
+      "title": "The Hall of Prophecies",
+      "tags": ["dom", "prophecy"],
+      "text": "The Hall of Prophecies is one of the largest chambers in the Department of Mysteries — towering shelves of small glass orbs, each containing a recorded prophecy. The orbs are organised by date and subject, glowing faintly in the dim light. A prophecy may be lifted only by the witch or wizard about whom it was made; for any other person to take it from the shelf is permitted only by force or trickery. Most prophecies are minor and unfulfilled, gathered for centuries and forgotten."
+    },
+    {
+      "id": "bellatrix_001",
+      "title": "Bellatrix Lestrange",
+      "tags": ["bellatrix", "death-eater", "black-family"],
+      "text": "Bellatrix Lestrange, born Bellatrix Black, is first cousin to Sirius Black and the most fanatical of Voldemort's Death Eaters. She was imprisoned in Azkaban for the torture of Frank and Alice Longbottom, parents of Harry's classmate Neville. She broke out in the mass escape of 1996 and rejoined her master immediately. Bellatrix is a duellist of extreme skill, particularly accomplished in the Cruciatus Curse, and she takes personal pleasure in cruelty. She regards Sirius as a blood traitor and would relish any opportunity to kill him."
+    },
+    {
+      "id": "order_001",
+      "title": "The Order of the Phoenix",
+      "tags": ["order", "dumbledore", "war"],
+      "text": "The Order of the Phoenix is a secret society founded by Albus Dumbledore to oppose Lord Voldemort. Disbanded after Voldemort's first fall in 1981, it was reconvened in 1995 when Voldemort returned. Its members include Aurors, former students, parents, and friends — Sirius Black, Remus Lupin, Nymphadora Tonks, Kingsley Shacklebolt, Severus Snape, and Mad-Eye Moody among them. The Order operates from 12 Grimmauld Place, communicates through Patronus messengers, and works largely outside Ministry sanction, since the Ministry refuses to acknowledge that Voldemort has returned."
+    },
+    {
+      "id": "kreacher_001",
+      "title": "Kreacher",
+      "tags": ["kreacher", "house-elf", "grimmauld"],
+      "text": "Kreacher is the house-elf of 12 Grimmauld Place, bound to the Black family for generations. Aged and bitter, he loathes Sirius — whom he regards as a blood traitor — and reveres the memory of Walburga Black, Sirius's mother, whose pureblood values he still serves. By the rules of house-elf magic, Kreacher must obey his master's direct orders, but he is free to interpret loosely-worded instructions in whatever way will most harm those who give them. His resentment makes him a vulnerable point in any plan that depends on Grimmauld Place's secrecy."
+    },
+    {
+      "id": "occlumency_001",
+      "title": "Occlumency and the Mind Connection",
+      "tags": ["occlumency", "voldemort", "harry", "snape"],
+      "text": "Occlumency is the magical defence of the mind against external penetration. A skilled Occlumens can shield their thoughts and emotions from a Legilimens — one who reads minds. Voldemort, an exceptional Legilimens, has had a connection to Harry's mind since the curse that gave Harry his scar. Through this link Voldemort can plant feelings, dreams, and even false visions. Snape, instructed by Dumbledore, attempted to teach Harry Occlumency in his fifth year so that he could close his mind. Harry's progress was uneven, and the lessons ended in a breach of trust before the link could be closed."
+    }
+  ]
+}

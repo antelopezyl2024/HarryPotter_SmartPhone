@@ -1,0 +1,53 @@
+{
+  "scene_id": "S3_THE_PROPHECY",
+  "order": 3,
+  "title": "The Prophecy",
+  "narrative": "You stand in the Hall of Prophecies, deep in the Department of Mysteries. Towering shelves of dim glass orbs stretch into shadow. On a shelf at eye level, one orb glows blue, and beneath it a yellowed label bears two names: S.P.T. to A.P.W.B.D., and below that, Dark Lord and (?) Harry Potter. Footsteps echo from the next chamber. Lucius Malfoy's voice carries through the silence. The Death Eaters know exactly where you are.",
+  "decision": {
+    "mode": "EITHER",
+    "choice": {
+      "options": [
+        {
+          "id": "A",
+          "text": "Lift the orb. You came this far — you might as well learn what it says.",
+          "is_correct": false,
+          "feedback_hint": "The orb is the bait. Touching it gives the Death Eaters their excuse to surround you."
+        },
+        {
+          "id": "B",
+          "text": "Ignore the orb. Find an exit and lead everyone out — now.",
+          "is_correct": true,
+          "feedback_hint": "Refusing the bait deprives the Death Eaters of their leverage. The fight that follows is on your terms."
+        }
+      ]
+    },
+    "free_text": {
+      "prompt": "What do you do — and what do you tell the others?",
+      "max_chars": 240,
+      "categories": [
+        {
+          "id": "DISSUADE_AND_FLEE",
+          "label": "Refuse the orb and lead the group out — naming an exit, retreat, or escape",
+          "is_correct": true
+        },
+        {
+          "id": "TAKE_AND_FLEE",
+          "label": "Take the orb (or have the group take it), even if planning to flee with it after",
+          "is_correct": false
+        },
+        {
+          "id": "DELAY_AND_INSPECT",
+          "label": "Stay at the shelf to study, read, identify, or analyze the orb instead of leaving",
+          "is_correct": false
+        },
+        {
+          "id": "INVALID",
+          "label": "Off-topic, refusal, or nonsensical input",
+          "is_correct": false
+        }
+      ],
+      "llm_classification_criteria": "Classify into exactly one category. DISSUADE_AND_FLEE requires the player to refuse the orb AND propose retreating. TAKE_AND_FLEE applies whenever the player picks up the orb, regardless of subsequent action. DELAY_AND_INSPECT is when the player stays at the shelf to read, study, or analyze rather than leaving — the failure mode here is wasted time, not theft. INVALID for off-topic / refusal / nonsense."
+    }
+  },
+  "next_scene_id": "S4_THE_BRINK_OF_DEATH"
+}

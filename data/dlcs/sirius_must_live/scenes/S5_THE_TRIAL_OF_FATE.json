@@ -1,0 +1,53 @@
+{
+  "scene_id": "S5_THE_TRIAL_OF_FATE",
+  "order": 5,
+  "title": "The Trial of Fate",
+  "narrative": "The dust settles. Bellatrix flees through the doors of the Atrium. Sirius leans on the fountain, wand still in hand, alive — barely. Then the lifts open and Cornelius Fudge bursts in with a phalanx of Aurors. He sees the wreckage, the unconscious Death Eaters, and Sirius Black — convicted murderer, escapee from Azkaban — standing wand-in-hand among children. Fudge's face turns white. Then red. He has not yet said a word.",
+  "decision": {
+    "mode": "EITHER",
+    "choice": {
+      "options": [
+        {
+          "id": "A",
+          "text": "Tell Sirius to vanish into the chaos. He survives — but the warrant on him stands.",
+          "is_correct": false,
+          "feedback_hint": "He lives. He stays a fugitive forever, hunted, hiding."
+        },
+        {
+          "id": "B",
+          "text": "Force a public reckoning. Revive a captured Death Eater. Make them confess in front of Fudge and every Auror in the Atrium.",
+          "is_correct": true,
+          "feedback_hint": "Public testimony in front of the Minister and his Aurors. The truth becomes record. Sirius is cleared."
+        }
+      ]
+    },
+    "free_text": {
+      "prompt": "What do you say to Fudge — and to Sirius?",
+      "max_chars": 240,
+      "categories": [
+        {
+          "id": "PUBLIC_PROOF",
+          "label": "Insist on public revelation — making a Death Eater confess, presenting evidence, demanding an inquiry, refusing to leave until truth is recorded",
+          "is_correct": true
+        },
+        {
+          "id": "QUICK_ESCAPE",
+          "label": "Urge Sirius to flee, escape, vanish, or hide before Fudge acts",
+          "is_correct": false
+        },
+        {
+          "id": "HESITATE",
+          "label": "Defer the decision, stall, or fail to commit to either path",
+          "is_correct": false
+        },
+        {
+          "id": "INVALID",
+          "label": "Off-topic or nonsensical input",
+          "is_correct": false
+        }
+      ],
+      "llm_classification_criteria": "Classify into exactly one category. PUBLIC_PROOF requires the player to commit to making the truth visible to Fudge and witnesses. QUICK_ESCAPE is any urging of Sirius to flee. HESITATE is when the player stalls, asks for time, or doesn't commit to either path. INVALID for off-topic / nonsense."
+    }
+  },
+  "next_scene_id": null
+}

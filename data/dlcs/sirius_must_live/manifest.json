@@ -1,0 +1,20 @@
+{
+  "dlc_id": "sirius_must_live",
+  "title": "Sirius Black Must Live",
+  "description": "An alternate-timeline retelling of the Department of Mysteries arc from Order of the Phoenix. Five decisions stand between Sirius Black and the Veil. Get four right, and he walks free.",
+  "version": "0.1.0",
+  "scene_order": [
+    "S1_THE_VISION",
+    "S2_THE_REINFORCEMENT",
+    "S3_THE_PROPHECY",
+    "S4_THE_BRINK_OF_DEATH",
+    "S5_THE_TRIAL_OF_FATE"
+  ],
+  "max_score": 5,
+  "scoring_mode": "binary",
+  "files": {
+    "scenes_dir": "scenes/",
+    "endings": "endings.json",
+    "lore": "lore.json"
+  }
+}

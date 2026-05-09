@@ -1,0 +1,16 @@
+{
+  "endings": [
+    {
+      "id": "SUCCESS",
+      "title": "A Life Reclaimed",
+      "score_range": {"min": 4, "max": 5},
+      "narrative": "When the dust settles, Sirius Black walks free. With Cornelius Fudge himself as witness, the Ministry can no longer deny what was always true: Peter Pettigrew lives, Sirius is innocent, and Voldemort has returned. The Order of the Phoenix gains a soldier; Harry gains the godfather he was always promised. The trap that was meant to claim a life instead exposed the rot at the heart of the Ministry."
+    },
+    {
+      "id": "FAIL",
+      "title": "The Veil Closes",
+      "score_range": {"min": 0, "max": 3},
+      "narrative": "There are some choices that cannot be unmade. Sirius is gone — through the Veil, behind a fugitive's name, or into the deeper silence that follows a war's first true loss. The vision Voldemort planted bore exactly the fruit it was meant to bear. Harry returns to a Hogwarts that has already begun to forget, carrying a single, unchangeable truth: that some traps spring closed faster than the heart can decide."
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "scene_id": "S1_THE_VISION",
+  "order": 1,
+  "title": "The Vision",
+  "narrative": "Mid-exam in History of Magic, Harry's vision narrows and the hall falls away. He sees Sirius on the floor of a vaulted, dim corridor, writhing under a curse. 'Where is it? Where is the prophecy?' a familiar voice hisses. Then darkness, and he wakes alone in the hospital wing, scar burning. The vision felt real — but Voldemort has lied through this link before.",
+  "decision": {
+    "mode": "EITHER",
+    "choice": {
+      "options": [
+        {
+          "id": "A",
+          "text": "Bolt for the Forbidden Forest. Find a Thestral and fly straight to the Ministry.",
+          "is_correct": false,
+          "feedback_hint": "Acting on the vision without verifying it. This is exactly what the trap was designed to provoke."
+        },
+        {
+          "id": "B",
+          "text": "Use the two-way mirror Sirius gave you at Christmas.",
+          "is_correct": true,
+          "feedback_hint": "The fastest way to verify the vision without leaving the school. Sirius answers — alive, at Grimmauld Place. The vision was a trap."
+        },
+        {
+          "id": "C",
+          "text": "Find Snape in the dungeons and pass the agreed signal so he can warn the Order.",
+          "is_correct": true,
+          "feedback_hint": "Indirect, but reliable. The Order moves before Voldemort's plan can fully spring."
+        }
+      ]
+    },
+    "free_text": {
+      "prompt": "What is your plan?",
+      "max_chars": 240,
+      "categories": [
+        {
+          "id": "SAFE_VERIFICATION",
+          "label": "Verify the vision via mirror, Snape, Dumbledore, or another in-school agent",
+          "is_correct": true
+        },
+        {
+          "id": "CAUTIOUS_INVESTIGATE",
+          "label": "Gather more information first; consult others; do not commit until certain",
+          "is_correct": true
+        },
+        {
+          "id": "IMPULSIVE_RUSH",
+          "label": "Leave Hogwarts immediately to reach the Ministry, by any means",
+          "is_correct": false
+        },
+        {
+          "id": "INVALID",
+          "label": "Off-topic, refusal, or nonsensical input",
+          "is_correct": false
+        }
+      ],
+      "llm_classification_criteria": "Classify the player's plan into exactly one category. Prefer SAFE_VERIFICATION when the player names a specific verifying agent (mirror, Snape, Dumbledore, McGonagall, an Order member). Use CAUTIOUS_INVESTIGATE when the player wants to gather information but does not name a specific verifier. Use IMPULSIVE_RUSH when the player intends to physically travel to the Ministry without verification, regardless of method. Use INVALID for off-topic, refusal, or nonsense input."
+    }
+  },
+  "next_scene_id": "S2_THE_REINFORCEMENT"
+}

@@ -1,0 +1,65 @@
+{
+  "scene_id": "S4_THE_BRINK_OF_DEATH",
+  "order": 4,
+  "title": "The Brink of Death",
+  "narrative": "The fight has spilled into the Death Chamber. The Veil hangs at the centre, its tattered curtain swaying in a wind no one can feel. Sirius, exhilarated to be in a real fight again, is duelling Bellatrix Lestrange three paces from the archway — laughing as he throws hexes. He has not looked behind him. Bellatrix has. Her wand is rising. You have one breath.",
+  "decision": {
+    "mode": "EITHER",
+    "choice": {
+      "options": [
+        {
+          "id": "A",
+          "text": "Cast Impedimenta on Bellatrix — break her stance before she can fire.",
+          "is_correct": true,
+          "feedback_hint": "A clean defensive answer. Bellatrix loses her opening; Sirius wins the duel."
+        },
+        {
+          "id": "B",
+          "text": "Cast Protego on Sirius — shield him and push him forward, away from the archway.",
+          "is_correct": true,
+          "feedback_hint": "A protective shield charm that physically nudges him out of the danger zone."
+        },
+        {
+          "id": "C",
+          "text": "Tackle Sirius bodily — get him away from the Veil at any cost.",
+          "is_correct": true,
+          "feedback_hint": "Crude, but effective. He survives."
+        },
+        {
+          "id": "D",
+          "text": "Cast Stupefy past Sirius at Bellatrix — go for the kill shot.",
+          "is_correct": false,
+          "feedback_hint": "Sirius is in the line of fire. Even if you miss him, the recoil could push him into the Veil."
+        }
+      ]
+    },
+    "free_text": {
+      "prompt": "Shout your action — fast.",
+      "max_chars": 200,
+      "categories": [
+        {
+          "id": "PROTECT_PULL",
+          "label": "Move Sirius away from the Veil — pulling, tackling, levitating, summoning, restraining",
+          "is_correct": true
+        },
+        {
+          "id": "PROTECT_SPELL",
+          "label": "Cast a defensive spell on Sirius (Protego), or a non-lethal spell on Bellatrix that does not endanger Sirius (Impedimenta, Stupefy on Bellatrix only)",
+          "is_correct": true
+        },
+        {
+          "id": "OFFENSIVE_ONLY",
+          "label": "Attack without taking Sirius's position into account; or any spell whose trajectory could push or pull him toward the Veil",
+          "is_correct": false
+        },
+        {
+          "id": "INVALID",
+          "label": "Off-topic, inaction, or nonsensical input",
+          "is_correct": false
+        }
+      ],
+      "llm_classification_criteria": "Classify into exactly one category. PROTECT_PULL is any action that physically moves Sirius away from the Veil. PROTECT_SPELL is any defensive or non-lethal spell that protects Sirius without endangering him. OFFENSIVE_ONLY covers offensive actions that ignore Sirius's exposed position, including spells aimed past him or that could push him toward the archway. INVALID for off-topic, inaction, or nonsense."
+    }
+  },
+  "next_scene_id": "S5_THE_TRIAL_OF_FATE"
+}
