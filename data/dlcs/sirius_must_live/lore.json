@@ -59,6 +59,204 @@
       "title": "Occlumency and the Mind Connection",
       "tags": ["occlumency", "voldemort", "harry", "snape"],
       "text": "Occlumency is the magical defence of the mind against external penetration. A skilled Occlumens can shield their thoughts and emotions from a Legilimens — one who reads minds. Voldemort, an exceptional Legilimens, has had a connection to Harry's mind since the curse that gave Harry his scar. Through this link Voldemort can plant feelings, dreams, and even false visions. Snape, instructed by Dumbledore, attempted to teach Harry Occlumency in his fifth year so that he could close his mind. Harry's progress was uneven, and the lessons ended in a breach of trust before the link could be closed."
-    }
+    },
+    {
+  "id": "harry_001",
+  "title": "Harry Potter",
+  "tags": ["harry", "gryffindor", "chosen-one"],
+  "text": "Harry Potter is the son of James and Lily Potter and the only known survivor of the Killing Curse. Voldemort's failed attempt to kill him as an infant left Harry with a lightning-shaped scar and an unintended mental connection to Voldemort. Harry was raised by the Dursleys and entered Hogwarts in 1991, where he was sorted into Gryffindor. He is brave, loyal, impulsive, and strongly driven by the desire to protect others, especially his friends and godfather Sirius Black."
+},
+{
+  "id": "ron_001",
+  "title": "Ron Weasley",
+  "tags": ["ron", "weasley", "gryffindor"],
+  "text": "Ron Weasley is Harry Potter's best friend and the youngest Weasley son. Raised in a loving but poor pure-blood family, Ron often feels overshadowed by his older brothers and insecure about his own worth. Despite jealousy and fear, he repeatedly chooses loyalty and courage when it matters. His knowledge of wizarding customs helps Harry understand the magical world."
+},
+{
+  "id": "hermione_001",
+  "title": "Hermione Granger",
+  "tags": ["hermione", "gryffindor", "muggle-born"],
+  "text": "Hermione Granger is a Muggle-born witch and one of Harry Potter's closest friends. Brilliant, disciplined, and highly logical, she often relies on research, planning, and rules to solve problems. Hermione is deeply loyal and morally driven, especially against injustice and prejudice. Her intelligence frequently prevents Harry and Ron from acting recklessly."
+},
+{
+  "id": "dumbledore_001",
+  "title": "Albus Dumbledore",
+  "tags": ["dumbledore", "hogwarts", "order"],
+  "text": "Albus Dumbledore is Headmaster of Hogwarts and founder of the Order of the Phoenix. He is one of the most powerful wizards alive and Voldemort's most feared opponent. Dumbledore often acts through secrecy, long-term planning, and indirect guidance. Though he cares for Harry, he withholds painful truths from him in an attempt to protect both Harry and the wider war effort."
+},
+{
+  "id": "voldemort_001",
+  "title": "Lord Voldemort",
+  "tags": ["voldemort", "death-eater", "dark-lord"],
+  "text": "Lord Voldemort, born Tom Riddle, is a dark wizard obsessed with immortality, domination, and pure-blood supremacy despite being half-blood himself. He fears death above all things and uses terror, manipulation, and murder to control others. Voldemort lacks the ability to understand love, loyalty, and self-sacrifice, which repeatedly blinds him to the choices of his enemies."
+},
+{
+  "id": "snape_001",
+  "title": "Severus Snape",
+  "tags": ["snape", "hogwarts", "spy"],
+  "text": "Severus Snape is Potions Master at Hogwarts and later Defence Against the Dark Arts professor. A former Death Eater, he secretly works for Dumbledore because of his enduring love for Lily Potter and guilt over her death. Snape despises Harry because he resembles James Potter, but he also protects him because Harry is Lily's son. His loyalties are difficult to read because he is bitter, secretive, and highly skilled at Occlumency."
+},
+{
+  "id": "draco_001",
+  "title": "Draco Malfoy",
+  "tags": ["draco", "slytherin", "malfoy-family"],
+  "text": "Draco Malfoy is a Slytherin student from a wealthy pure-blood family. Raised under Lucius Malfoy's influence, Draco values status, blood purity, and family reputation, but he is often more insecure than truly cruel. He bullies Harry and his friends, yet he struggles when forced into real violence. Draco is especially vulnerable to pressure involving his parents and the Malfoy name."
+},
+{
+  "id": "neville_001",
+  "title": "Neville Longbottom",
+  "tags": ["neville", "gryffindor", "longbottom"],
+  "text": "Neville Longbottom is a Gryffindor student whose parents, Frank and Alice Longbottom, were tortured into insanity by Death Eaters. Neville begins as timid and forgetful, but his courage grows steadily as the war intensifies. His greatest fear is failing those who came before him, but his loyalty and moral strength make him one of Harry's most reliable allies."
+},
+{
+  "id": "lupin_001",
+  "title": "Remus Lupin",
+  "tags": ["lupin", "marauders", "werewolf"],
+  "text": "Remus Lupin is a werewolf, former Hogwarts professor, and one of James Potter's closest friends. Calm, kind, and intelligent, he often acts as a voice of reason. His condition causes deep shame and social isolation, making him hesitant to accept happiness or responsibility. Lupin is loyal to Harry and Sirius, but his caution can prevent him from acting decisively."
+},
+{
+  "id": "pettigrew_001",
+  "title": "Peter Pettigrew",
+  "tags": ["pettigrew", "marauders", "traitor"],
+  "text": "Peter Pettigrew was once a friend of James Potter, Sirius Black, and Remus Lupin. Out of fear and self-preservation, he betrayed the Potters to Voldemort and framed Sirius Black for the crime. Pettigrew survived for years disguised as Ron Weasley's rat, Scabbers. He is cowardly and opportunistic, but his life debt to Harry creates a weakness in his loyalty to Voldemort."
+},
+{
+  "id": "lucius_001",
+  "title": "Lucius Malfoy",
+  "tags": ["lucius", "malfoy-family", "death-eater"],
+  "text": "Lucius Malfoy is Draco Malfoy's father, a wealthy pure-blood aristocrat and former Death Eater. He uses influence, money, and intimidation to maintain power within wizarding society. Lucius serves Voldemort when it benefits him, but his loyalty is tied closely to status and family survival. His failures make the Malfoy family vulnerable to Voldemort's punishment."
+},
+{
+  "id": "narcissa_001",
+  "title": "Narcissa Malfoy",
+  "tags": ["narcissa", "malfoy-family", "black-family"],
+  "text": "Narcissa Malfoy, born Narcissa Black, is Draco Malfoy's mother and sister to Bellatrix Lestrange. Unlike Bellatrix, Narcissa's deepest loyalty is to her family rather than Voldemort. She values pure-blood status but will betray even the Dark Lord if Draco's life is at stake. Her love for her son makes her one of the few people capable of acting against Voldemort from within his own side."
+},
+{
+  "id": "umbridge_001",
+  "title": "Dolores Umbridge",
+  "tags": ["umbridge", "ministry", "hogwarts"],
+  "text": "Dolores Umbridge is a Ministry official who becomes Defence Against the Dark Arts professor and later High Inquisitor of Hogwarts. She hides cruelty behind politeness, rules, and bureaucratic authority. Umbridge refuses to admit Voldemort's return and punishes students who speak the truth. Her control of Hogwarts makes communication, resistance, and student organizing extremely dangerous."
+},
+{
+  "id": "hogwarts_001",
+  "title": "Hogwarts School of Witchcraft and Wizardry",
+  "tags": ["hogwarts", "school", "location"],
+  "text": "Hogwarts is the main magical school in Britain, hidden from Muggles and protected by powerful enchantments. Students are sorted into Gryffindor, Slytherin, Ravenclaw, or Hufflepuff. The castle contains moving staircases, secret passages, enchanted portraits, hidden rooms, and ancient magic. Hogwarts is both a place of safety and a battlefield when war reaches the school."
+},
+{
+  "id": "forbidden_forest_001",
+  "title": "The Forbidden Forest",
+  "tags": ["hogwarts", "forest", "location"],
+  "text": "The Forbidden Forest borders Hogwarts and contains many magical creatures, including centaurs, unicorns, giant spiders, and thestrals. Students are forbidden to enter without permission because the forest is dangerous and unpredictable. The forest often becomes a place where hidden truths, secret meetings, and dangerous encounters take place."
+},
+{
+  "id": "azkaban_001",
+  "title": "Azkaban",
+  "tags": ["azkaban", "dementors", "prison"],
+  "text": "Azkaban is the wizarding prison guarded for many years by Dementors. Prisoners are exposed to despair, fear, and the draining effects of the Dementors, often leaving them mentally broken. Sirius Black survived twelve years there partly because he knew he was innocent, which helped him resist complete collapse. Escaping Azkaban is considered nearly impossible."
+},
+{
+  "id": "malfoy_manor_001",
+  "title": "Malfoy Manor",
+  "tags": ["malfoy-family", "death-eater", "location"],
+  "text": "Malfoy Manor is the ancestral home of the Malfoy family. During Voldemort's return, it becomes a gathering place and temporary headquarters for Death Eaters. The manor represents wealth, pure-blood pride, and fear under Voldemort's rule. Although luxurious, it becomes a prison-like place for the Malfoys once Voldemort begins using their home."
+},
+{
+  "id": "fidelius_001",
+  "title": "The Fidelius Charm",
+  "tags": ["magic", "fidelius", "secrecy"],
+  "text": "The Fidelius Charm hides a secret inside the soul of a chosen Secret-Keeper. A protected location cannot be found unless the Secret-Keeper reveals it. The charm was used to hide the Potters before their deaths and later to protect 12 Grimmauld Place. The choice of Secret-Keeper is crucial, because betrayal can destroy the protection completely."
+},
+{
+  "id": "patronus_001",
+  "title": "The Patronus Charm",
+  "tags": ["magic", "patronus", "dementors"],
+  "text": "The Patronus Charm produces a guardian made of positive emotion and memory. It is the main defence against Dementors. Advanced witches and wizards can produce a corporeal Patronus in the form of an animal. Members of the Order of the Phoenix also use Patronuses as secure magical messengers."
+},
+{
+  "id": "horcrux_001",
+  "title": "Horcruxes",
+  "tags": ["magic", "voldemort", "immortality"],
+  "text": "A Horcrux is an object or living vessel containing a fragment of a wizard's soul, created through murder and dark magic. Voldemort used Horcruxes to protect himself from death. As long as a Horcrux survives, Voldemort cannot be fully destroyed. Destroying a Horcrux usually requires extremely destructive magical forces such as basilisk venom or Fiendfyre."
+},
+{
+  "id": "unforgivable_001",
+  "title": "The Unforgivable Curses",
+  "tags": ["magic", "dark-arts", "curses"],
+  "text": "The three Unforgivable Curses are the Killing Curse, the Cruciatus Curse, and the Imperius Curse. Their use on another person is considered one of the gravest crimes in wizarding law. The Killing Curse causes instant death, the Cruciatus Curse causes extreme pain, and the Imperius Curse controls the victim's actions. Death Eaters frequently use these curses to terrify and dominate others."
+},
+{
+  "id": "polyjuice_001",
+  "title": "Polyjuice Potion",
+  "tags": ["magic", "potion", "disguise"],
+  "text": "Polyjuice Potion allows the drinker to temporarily take the physical form of another person, provided they have a piece of that person's body such as hair. The potion is complex and time-consuming to brew. It changes appearance but does not grant memories, knowledge, or personality. Careful acting is required for the disguise to succeed."
+},
+{
+  "id": "time_turner_001",
+  "title": "Time-Turners",
+  "tags": ["magic", "time", "artifact"],
+  "text": "A Time-Turner is a magical device that allows limited travel into the past. Time travel is dangerous because careless interference can create confusion, paradox-like consequences, or accidental exposure. Time-Turners are closely controlled by the Ministry of Magic. Their use requires precision, secrecy, and strict discipline."
+},
+{
+  "id": "animagus_001",
+  "title": "Animagi",
+  "tags": ["magic", "transfiguration", "animagus"],
+  "text": "An Animagus is a witch or wizard who can transform into a specific animal at will while keeping their human mind. Becoming an Animagus is difficult and usually requires registration with the Ministry. James Potter, Sirius Black, and Peter Pettigrew secretly became unregistered Animagi to help Remus Lupin during his werewolf transformations."
+},
+{
+  "id": "werewolf_001",
+  "title": "Werewolves",
+  "tags": ["magic", "werewolf", "lupin"],
+  "text": "A werewolf transforms during the full moon and becomes dangerous to humans unless protected by special measures. Wolfsbane Potion can allow a werewolf to keep their mind during transformation, but it does not prevent the transformation itself. Werewolves face severe prejudice in wizarding society, which affects Remus Lupin's choices and self-worth."
+},
+{
+  "id": "potters_death_001",
+  "title": "The Death of James and Lily Potter",
+  "tags": ["harry", "voldemort", "timeline"],
+  "text": "James and Lily Potter were murdered by Voldemort on Halloween night in 1981 after Peter Pettigrew betrayed their hiding place. Lily's self-sacrifice protected Harry from the Killing Curse, causing Voldemort's body to be destroyed and leaving Harry with a scar. This event ended the First Wizarding War and made Harry famous as the Boy Who Lived."
+},
+{
+  "id": "voldemort_return_001",
+  "title": "Voldemort's Return",
+  "tags": ["voldemort", "timeline", "war"],
+  "text": "Voldemort returned to a physical body in 1995 after the Triwizard Tournament. The Ministry of Magic refused to acknowledge his return, leaving Harry and Dumbledore publicly discredited. This denial allowed Voldemort to rebuild power in secret while the Order of the Phoenix prepared for war outside official support."
+},
+{
+  "id": "dumbledores_army_001",
+  "title": "Dumbledore's Army",
+  "tags": ["harry", "hogwarts", "resistance"],
+  "text": "Dumbledore's Army is a secret student group formed in Harry's fifth year to learn practical Defence Against the Dark Arts. The group forms because Umbridge refuses to teach students real defensive magic. Harry teaches spells such as the Disarming Charm, Stunning Spell, Shield Charm, and Patronus Charm. The group gives students confidence, unity, and a foundation for later resistance."
+},
+{
+  "id": "department_battle_001",
+  "title": "The Battle of the Department of Mysteries",
+  "tags": ["dom", "sirius", "timeline"],
+  "text": "The Battle of the Department of Mysteries occurs after Harry is manipulated into believing Sirius is being tortured at the Ministry. Harry and several friends enter the Department of Mysteries, where Death Eaters are waiting to seize the prophecy. Members of the Order arrive to rescue them. During the battle, Sirius fights Bellatrix Lestrange and falls through the Veil in the Death Chamber."
+},
+{
+  "id": "harry_sirius_relationship_001",
+  "title": "Harry and Sirius's Relationship",
+  "tags": ["harry", "sirius", "relationship"],
+  "text": "Harry sees Sirius Black as both family and a possible escape from the Dursleys. Sirius sees Harry partly as his godson and partly as a living reminder of James Potter. Their bond is emotionally intense because both are lonely, grieving, and desperate for family. This makes Harry especially vulnerable to any threat involving Sirius."
+},
+{
+  "id": "snape_harry_relationship_001",
+  "title": "Harry and Snape's Hostility",
+  "tags": ["harry", "snape", "relationship"],
+  "text": "Harry and Snape distrust each other from Harry's first year at Hogwarts. Snape sees James Potter's arrogance in Harry, while Harry sees Snape as cruel, biased, and possibly evil. This hostility damages Harry's Occlumency lessons and prevents him from accepting warnings that might protect him from Voldemort's manipulation."
+},
+{
+  "id": "sirius_kreacher_relationship_001",
+  "title": "Sirius and Kreacher's Conflict",
+  "tags": ["sirius", "kreacher", "relationship"],
+  "text": "Sirius Black despises 12 Grimmauld Place because it represents his family's pure-blood cruelty, and he often treats Kreacher with anger and contempt. Kreacher, loyal to the old Black family values, hates Sirius as a blood traitor. Their mutual hostility creates a serious weakness inside the Order's headquarters, because Kreacher can obey orders while still twisting them against Sirius."
+},
+{
+  "id": "draco_family_pressure_001",
+  "title": "Draco and Family Pressure",
+  "tags": ["draco", "lucius", "narcissa", "relationship"],
+  "text": "Draco Malfoy's identity is shaped by his parents, especially Lucius Malfoy's expectations of pure-blood pride and social dominance. Draco wants to prove himself worthy of the Malfoy name, but he is not emotionally prepared for the violence demanded by Voldemort. Pressure involving his family's safety can push Draco into dangerous choices or make him hesitate at critical moments."
+}
   ]
 }
