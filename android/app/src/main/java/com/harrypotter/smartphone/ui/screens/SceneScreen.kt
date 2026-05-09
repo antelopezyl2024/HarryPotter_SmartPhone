@@ -333,18 +333,6 @@ private fun FeedbackContent(
                 NarrativeCard(narrative = response.narrativeFeedback)
             }
 
-            response.aiClassification?.let { cls ->
-                Spacer(Modifier.height(12.dp))
-                Surface(shape = RoundedCornerShape(8.dp), color = HPVeilBlue.copy(alpha = 0.1f)) {
-                    Text(
-                        text = "Strategy: ${cls.categoryId.replace('_', ' ').lowercase().replaceFirstChar { it.uppercase() }}",
-                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-                        style = MaterialTheme.typography.labelMedium,
-                        color = HPVeilBlue
-                    )
-                }
-            }
-
             Spacer(Modifier.height(32.dp))
 
             AnimatedVisibility(visible = visible, enter = fadeIn(tween(400, delayMillis = 600))) {

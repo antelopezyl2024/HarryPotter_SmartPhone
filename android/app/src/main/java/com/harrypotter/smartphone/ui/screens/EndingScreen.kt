@@ -10,7 +10,6 @@ import com.harrypotter.smartphone.ui.components.GoldenSnitchCanvas
 import com.harrypotter.smartphone.ui.components.LottiePatronus
 import com.harrypotter.smartphone.ui.components.StarRain
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
@@ -99,9 +98,22 @@ fun EndingScreen(ending: GetEndingResponse, onPlayAgain: () -> Unit) {
                 }
             }
 
-            items(ending.decisionsOverview) { entry ->
+            item {
                 AnimatedVisibility(visible = visible, enter = fadeIn(tween(600, delayMillis = 600))) {
-                    DecisionRow(entry.summary, entry.isCorrect)
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterHorizontally),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        ending.decisionsOverview.forEach { entry ->
+                            Icon(
+                                imageVector = if (entry.isCorrect) Icons.Default.Check else Icons.Default.Close,
+                                contentDescription = null,
+                                tint = if (entry.isCorrect) HPCorrect else HPWrong,
+                                modifier = Modifier.size(32.dp)
+                            )
+                        }
+                    }
                 }
             }
 
@@ -168,28 +180,3 @@ private fun ScoreChip(score: Int, color: Color) {
     }
 }
 
-@Composable
-private fun DecisionRow(summary: String, isCorrect: Boolean) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 6.dp),
-        verticalAlignment = Alignment.Top
-    ) {
-        Icon(
-            imageVector = if (isCorrect) Icons.Default.Check else Icons.Default.Close,
-            contentDescription = null,
-            tint = if (isCorrect) HPCorrect else HPWrong,
-            modifier = Modifier
-                .size(20.dp)
-                .padding(top = 2.dp)
-        )
-        Spacer(Modifier.width(10.dp))
-        Text(
-            text = summary,
-            style = MaterialTheme.typography.bodyMedium,
-            color = HPParchment.copy(alpha = 0.85f),
-            modifier = Modifier.weight(1f)
-        )
-    }
-}

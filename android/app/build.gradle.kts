@@ -15,7 +15,7 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        buildConfigField("String", "BASE_URL", "\"https://honey-apophysial-maura.ngrok-free.dev/api/v1/\"")
+        buildConfigField("String", "BASE_URL", "\"https://cairny-subangulate-tama.ngrok-free.dev/api/v1/\"")
         buildConfigField("Boolean", "USE_MOCK", "true")
     }
 

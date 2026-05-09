@@ -36,7 +36,7 @@ fun AppNavigation(playerUuid: String) {
         when (state) {
             is GameUiState.InScene, is GameUiState.Feedback -> {
                 val current = navController.currentBackStackEntry?.destination?.route
-                if (current == Screen.Home.route || current == null) {
+                if (current == Screen.Home.route) {
                     navController.navigate(Screen.Scene.route) { launchSingleTop = true }
                 }
             }

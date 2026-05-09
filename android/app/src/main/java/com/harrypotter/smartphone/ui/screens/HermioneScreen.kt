@@ -7,6 +7,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.Send
@@ -16,6 +18,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.harrypotter.smartphone.ui.theme.*
@@ -154,17 +159,6 @@ private fun MessageBubble(msg: HermioneMessage) {
                 modifier = Modifier.padding(12.dp)
             )
         }
-        if (!msg.isUser && msg.sources.isNotEmpty()) {
-            Spacer(Modifier.height(4.dp))
-            msg.sources.forEach { src ->
-                Text(
-                    text = "📖 ${src.title}",
-                    style = MaterialTheme.typography.labelSmall,
-                    color = HPVeilBlue.copy(alpha = 0.8f),
-                    modifier = Modifier.padding(start = 4.dp)
-                )
-            }
-        }
     }
 }
 
@@ -200,6 +194,14 @@ private fun HermioneInputBar(
     isLoading: Boolean,
     onSend: () -> Unit
 ) {
+    val keyboardController = LocalSoftwareKeyboardController.current
+    val focusManager = LocalFocusManager.current
+
+    fun submitAndDismiss() {
+        onSend()
+        keyboardController?.hide()
+    }
+
     Surface(
         color = Color(0xFF0D0D1A),
         shadowElevation = 8.dp
@@ -222,12 +224,16 @@ private fun HermioneInputBar(
                     focusedTextColor = HPParchment,
                     unfocusedTextColor = HPParchment
                 ),
-                maxLines = 3,
-                shape = RoundedCornerShape(12.dp)
+                singleLine = true,
+                shape = RoundedCornerShape(12.dp),
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Send),
+                keyboardActions = KeyboardActions(onSend = {
+                    if (value.isNotBlank() && !isLoading) submitAndDismiss()
+                })
             )
             Spacer(Modifier.width(8.dp))
             IconButton(
-                onClick = onSend,
+                onClick = { if (value.isNotBlank() && !isLoading) submitAndDismiss() },
                 enabled = value.isNotBlank() && !isLoading
             ) {
                 Icon(
