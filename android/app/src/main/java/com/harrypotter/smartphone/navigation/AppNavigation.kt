@@ -7,10 +7,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.harrypotter.smartphone.ui.screens.EndingScreen
-import com.harrypotter.smartphone.ui.screens.HomeScreen
-import com.harrypotter.smartphone.ui.screens.HermioneScreen
-import com.harrypotter.smartphone.ui.screens.SceneScreen
+import com.harrypotter.smartphone.ui.screens.*
 import com.harrypotter.smartphone.viewmodel.GameUiState
 import com.harrypotter.smartphone.viewmodel.GameViewModel
 import com.harrypotter.smartphone.viewmodel.GameViewModelFactory
@@ -18,10 +15,13 @@ import com.harrypotter.smartphone.viewmodel.HermioneViewModel
 import com.harrypotter.smartphone.viewmodel.HermioneViewModelFactory
 
 sealed class Screen(val route: String) {
+    data object Intro : Screen("intro")
     data object Home : Screen("home")
     data object Scene : Screen("scene")
     data object Ending : Screen("ending")
     data object Hermione : Screen("hermione")
+    data object Production : Screen("production")
+    data object FinalAnimation : Screen("final_animation")
 }
 
 @Composable
@@ -31,13 +31,20 @@ fun AppNavigation(playerUuid: String) {
     val hermioneVm: HermioneViewModel = viewModel(factory = HermioneViewModelFactory(playerUuid))
     val state by gameVm.state.collectAsStateWithLifecycle()
 
-    // Drive navigation from state changes
     LaunchedEffect(state) {
         when (state) {
             is GameUiState.InScene, is GameUiState.Feedback -> {
                 val current = navController.currentBackStackEntry?.destination?.route
-                if (current == Screen.Home.route) {
-                    navController.navigate(Screen.Scene.route) { launchSingleTop = true }
+                if (current == Screen.Home.route || current == Screen.Intro.route) {
+                    navController.navigate(Screen.Scene.route) {
+                        launchSingleTop = true
+                        popUpTo(Screen.Home.route) { inclusive = true }
+                    }
+                }
+            }
+            is GameUiState.FinalAnimation -> {
+                navController.navigate(Screen.FinalAnimation.route) {
+                    launchSingleTop = true
                 }
             }
             is GameUiState.Ended -> {
@@ -48,7 +55,7 @@ fun AppNavigation(playerUuid: String) {
             }
             is GameUiState.DLCSelection -> {
                 val current = navController.currentBackStackEntry?.destination?.route
-                if (current != Screen.Home.route) {
+                if (current != Screen.Home.route && current != Screen.Intro.route && current != Screen.Production.route) {
                     navController.navigate(Screen.Home.route) {
                         popUpTo(Screen.Home.route) { inclusive = true }
                     }
@@ -58,12 +65,26 @@ fun AppNavigation(playerUuid: String) {
         }
     }
 
-    NavHost(navController = navController, startDestination = Screen.Home.route) {
+    NavHost(navController = navController, startDestination = Screen.Intro.route) {
+
+        composable(Screen.Intro.route) {
+            IntroScreen(onVideoFinished = {
+                navController.navigate(Screen.Home.route) {
+                    popUpTo(Screen.Intro.route) { inclusive = true }
+                }
+            })
+        }
 
         composable(Screen.Home.route) {
             HomeScreen(
                 state = state,
-                onSelectDLC = { dlcId -> gameVm.startGame(dlcId) },
+                onSelectDLC = { dlcId ->
+                    if (dlcId == "sirius_must_live") {
+                        gameVm.startGame(dlcId)
+                    } else {
+                        navController.navigate(Screen.Production.route)
+                    }
+                },
                 onRetry = { gameVm.restart() }
             )
         }
@@ -84,6 +105,15 @@ fun AppNavigation(playerUuid: String) {
                 onGameEnd = {},
                 onRetry = { gameVm.restart() }
             )
+        }
+
+        composable(Screen.FinalAnimation.route) {
+            val animationState = state as? GameUiState.FinalAnimation
+            if (animationState != null) {
+                FinalAnimationScreen(onAnimationFinished = {
+                    gameVm.onFinalAnimationFinished(animationState.ending)
+                })
+            }
         }
 
         composable(Screen.Ending.route) {
@@ -107,6 +137,10 @@ fun AppNavigation(playerUuid: String) {
                 playthroughId = currentPlaythroughId,
                 onBack = { navController.popBackStack() }
             )
+        }
+
+        composable(Screen.Production.route) {
+            ProductionScreen(onBack = { navController.popBackStack() })
         }
     }
 }

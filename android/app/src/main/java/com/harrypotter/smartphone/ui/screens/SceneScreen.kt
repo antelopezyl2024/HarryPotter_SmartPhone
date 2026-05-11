@@ -1,7 +1,10 @@
 package com.harrypotter.smartphone.ui.screens
 
+import android.net.Uri
+import androidx.annotation.OptIn
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -18,11 +21,20 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.viewinterop.AndroidView
+import androidx.media3.common.MediaItem
+import androidx.media3.common.Player
+import androidx.media3.common.util.UnstableApi
+import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.ui.AspectRatioFrameLayout
+import androidx.media3.ui.PlayerView
 import com.harrypotter.smartphone.data.model.*
 import com.harrypotter.smartphone.ui.components.DementorEffect
 import com.harrypotter.smartphone.ui.components.FloatingParticles
@@ -84,6 +96,7 @@ fun SceneScreen(
 
 // ── Scene content ─────────────────────────────────────────────────────────────
 
+@OptIn(UnstableApi::class)
 @Composable
 private fun SceneContent(
     playthrough: Playthrough,
@@ -94,11 +107,62 @@ private fun SceneContent(
 ) {
     var freeText by remember(scene.sceneId) { mutableStateOf("") }
     val scrollState = rememberScrollState()
-    var visible by remember(scene.sceneId) { mutableStateOf(false) }
-    LaunchedEffect(scene.sceneId) { visible = true }
+    val context = LocalContext.current
+    
+    // Logic for Scene 1 sequence: Video intro then content
+    var isContentVisible by remember(scene.sceneId) { mutableStateOf(scene.order != 1) }
+
+    val exoPlayer = remember(scene.sceneId) {
+        if (scene.order == 1) {
+            ExoPlayer.Builder(context).build().apply {
+                val uri = Uri.parse("asset:///videos/S1background.mov")
+                setMediaItem(MediaItem.fromUri(uri))
+                // Play once initially to act as intro
+                repeatMode = Player.REPEAT_MODE_OFF
+                prepare()
+                playWhenReady = true
+                addListener(object : Player.Listener {
+                    override fun onPlaybackStateChanged(playbackState: Int) {
+                        if (playbackState == Player.STATE_ENDED) {
+                            // Video finished: show text and set to loop
+                            isContentVisible = true
+                            repeatMode = Player.REPEAT_MODE_ALL
+                            playWhenReady = true
+                        }
+                    }
+                })
+            }
+        } else null
+    }
+
+    DisposableEffect(exoPlayer) {
+        onDispose { exoPlayer?.release() }
+    }
 
     Box(modifier = Modifier.fillMaxSize()) {
-        FloatingWizardSilhouette(modifier = Modifier.fillMaxSize())
+        // Background Layer
+        if (scene.order == 1 && exoPlayer != null) {
+            AndroidView(
+                factory = {
+                    PlayerView(it).apply {
+                        player = exoPlayer
+                        useController = false
+                        resizeMode = AspectRatioFrameLayout.RESIZE_MODE_ZOOM
+                    }
+                },
+                modifier = Modifier.fillMaxSize()
+            )
+            // Overlay to ensure text readability after fade-in
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.Black.copy(alpha = if (isContentVisible) 0.45f else 0.1f))
+            )
+        } else {
+            FloatingWizardSilhouette(modifier = Modifier.fillMaxSize())
+        }
+
+        // Foreground Content
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -112,9 +176,10 @@ private fun SceneContent(
 
             Spacer(Modifier.height(20.dp))
 
+            // Text and choices fade in only after intro animation if Scene 1
             AnimatedVisibility(
-                visible = visible,
-                enter = fadeIn(tween(400)) + slideInVertically(tween(400)) { -30 }
+                visible = isContentVisible,
+                enter = fadeIn(tween(1000))
             ) {
                 Column {
                     Text(
@@ -124,104 +189,89 @@ private fun SceneContent(
                     )
                     Spacer(Modifier.height(6.dp))
                     WandTrace(modifier = Modifier.fillMaxWidth().height(6.dp))
-                }
-            }
 
-            Spacer(Modifier.height(12.dp))
+                    Spacer(Modifier.height(12.dp))
 
-            AnimatedVisibility(
-                visible = visible,
-                enter = fadeIn(tween(500, delayMillis = 150)) + slideInVertically(tween(500, delayMillis = 150)) { 40 }
-            ) {
-                NarrativeCard(narrative = scene.narrative)
-            }
+                    NarrativeCard(narrative = scene.narrative, isTransparent = scene.order == 1)
 
-            Spacer(Modifier.height(24.dp))
+                    Spacer(Modifier.height(24.dp))
 
-            val mode = scene.decision.mode
-            val showChoice = (mode == "CHOICE" || mode == "EITHER") && scene.decision.choice != null
-            val showFreeText = (mode == "FREE_TEXT" || mode == "EITHER") && scene.decision.freeText != null
+                    val mode = scene.decision.mode
+                    val showChoice = (mode == "CHOICE" || mode == "EITHER") && scene.decision.choice != null
+                    val showFreeText = (mode == "FREE_TEXT" || mode == "EITHER") && scene.decision.freeText != null
 
-            if (showChoice) {
-                AnimatedVisibility(visible = visible, enter = fadeIn(tween(400, delayMillis = 300))) {
-                    Text(
-                        text = "Choose your path:",
-                        style = MaterialTheme.typography.labelLarge,
-                        color = HPParchment.copy(alpha = 0.7f)
-                    )
-                }
-                Spacer(Modifier.height(12.dp))
-                scene.decision.choice!!.options.forEachIndexed { index, option ->
-                    AnimatedVisibility(
-                        visible = visible,
-                        enter = fadeIn(tween(400, delayMillis = 400 + index * 100)) +
-                                slideInHorizontally(tween(400, delayMillis = 400 + index * 100)) { -60 }
-                    ) {
-                        Column {
+                    if (showChoice) {
+                        Text(
+                            text = "Choose your path:",
+                            style = MaterialTheme.typography.labelLarge,
+                            color = HPParchment.copy(alpha = 0.7f)
+                        )
+                        Spacer(Modifier.height(12.dp))
+                        scene.decision.choice!!.options.forEachIndexed { index, option ->
+                            val label = ('A' + index).toString()
                             SpellButton(
+                                label = label,
                                 text = option.text,
                                 onClick = { onSubmitChoice(playthrough.playthroughId, scene.sceneId, option.id, scene) }
                             )
-                            Spacer(Modifier.height(10.dp))
+                            Spacer(Modifier.height(16.dp))
                         }
                     }
-                }
-            }
 
-            if (showFreeText) {
-                if (showChoice) {
-                    Spacer(Modifier.height(8.dp))
-                    HorizontalDivider(color = HPGold.copy(alpha = 0.2f))
-                    Spacer(Modifier.height(8.dp))
-                    Text(
-                        text = "— or speak your mind —",
-                        style = MaterialTheme.typography.labelSmall,
-                        color = HPParchment.copy(alpha = 0.5f),
-                        modifier = Modifier.fillMaxWidth(),
-                        textAlign = TextAlign.Center
-                    )
-                    Spacer(Modifier.height(8.dp))
-                }
-                val config = scene.decision.freeText!!
-                AnimatedVisibility(visible = visible, enter = fadeIn(tween(400, delayMillis = 500))) {
-                    Column {
-                        Text(
-                            text = config.prompt,
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = HPParchment.copy(alpha = 0.8f)
-                        )
-                        Spacer(Modifier.height(8.dp))
-                        OutlinedTextField(
-                            value = freeText,
-                            onValueChange = { if (it.length <= config.maxChars) freeText = it },
-                            modifier = Modifier.fillMaxWidth(),
-                            placeholder = { Text("Your response…", color = HPParchment.copy(alpha = 0.4f)) },
-                            colors = OutlinedTextFieldDefaults.colors(
-                                focusedBorderColor = HPGold,
-                                unfocusedBorderColor = HPGold.copy(alpha = 0.3f),
-                                focusedTextColor = HPParchment,
-                                unfocusedTextColor = HPParchment
-                            ),
-                            maxLines = 4,
-                            trailingIcon = {
-                                val haptic = LocalHapticFeedback.current
-                                IconButton(onClick = {
-                                    if (freeText.isNotBlank()) {
-                                        haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                                        onSubmitFreeText(playthrough.playthroughId, scene.sceneId, freeText, scene)
+                    if (showFreeText) {
+                        if (showChoice) {
+                            Spacer(Modifier.height(8.dp))
+                            HorizontalDivider(color = HPGold.copy(alpha = 0.2f))
+                            Spacer(Modifier.height(8.dp))
+                            Text(
+                                text = "— or speak your mind —",
+                                style = MaterialTheme.typography.labelSmall,
+                                color = HPParchment.copy(alpha = 0.5f),
+                                modifier = Modifier.fillMaxWidth(),
+                                textAlign = TextAlign.Center
+                            )
+                            Spacer(Modifier.height(8.dp))
+                        }
+                        val config = scene.decision.freeText!!
+                        Column {
+                            Text(
+                                text = config.prompt,
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = HPParchment.copy(alpha = 0.8f)
+                            )
+                            Spacer(Modifier.height(8.dp))
+                            OutlinedTextField(
+                                value = freeText,
+                                onValueChange = { if (it.length <= config.maxChars) freeText = it },
+                                modifier = Modifier.fillMaxWidth(),
+                                placeholder = { Text("Your response…", color = HPParchment.copy(alpha = 0.4f)) },
+                                colors = OutlinedTextFieldDefaults.colors(
+                                    focusedBorderColor = HPGold,
+                                    unfocusedBorderColor = HPGold.copy(alpha = 0.3f),
+                                    focusedTextColor = HPParchment,
+                                    unfocusedTextColor = HPParchment
+                                ),
+                                maxLines = 4,
+                                trailingIcon = {
+                                    val haptic = LocalHapticFeedback.current
+                                    IconButton(onClick = {
+                                        if (freeText.isNotBlank()) {
+                                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                                            onSubmitFreeText(playthrough.playthroughId, scene.sceneId, freeText, scene)
+                                        }
+                                    }) {
+                                        Icon(Icons.AutoMirrored.Filled.Send, contentDescription = "Submit", tint = HPGold)
                                     }
-                                }) {
-                                    Icon(Icons.AutoMirrored.Filled.Send, contentDescription = "Submit", tint = HPGold)
+                                },
+                                supportingText = {
+                                    Text(
+                                        "${freeText.length}/${config.maxChars}",
+                                        color = HPParchment.copy(alpha = 0.4f),
+                                        style = MaterialTheme.typography.labelSmall
+                                    )
                                 }
-                            },
-                            supportingText = {
-                                Text(
-                                    "${freeText.length}/${config.maxChars}",
-                                    color = HPParchment.copy(alpha = 0.4f),
-                                    style = MaterialTheme.typography.labelSmall
-                                )
-                            }
-                        )
+                            )
+                        }
                     }
                 }
             }
@@ -258,7 +308,7 @@ private fun FeedbackContent(
     var shake by remember { mutableStateOf(false) }
     LaunchedEffect(Unit) {
         if (!isCorrect) {
-            delay(550) // wait for badge to appear, then shake
+            delay(550)
             shake = true
             delay(500)
             shake = false
@@ -269,7 +319,6 @@ private fun FeedbackContent(
         animationSpec = spring(dampingRatio = 0.2f, stiffness = Spring.StiffnessHigh),
         label = "shake"
     )
-    // Convert spring value to oscillating pixel offset
     val shakeX = if (!isCorrect) (shakeOffset * 18f * kotlin.math.sin(shakeOffset * 18f)).toInt() else 0
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -354,8 +403,6 @@ private fun FeedbackContent(
     }
 }
 
-// ── Error with retry ──────────────────────────────────────────────────────────
-
 @Composable
 private fun SceneErrorContent(message: String, onRetry: () -> Unit) {
     Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
@@ -383,8 +430,6 @@ private fun SceneErrorContent(message: String, onRetry: () -> Unit) {
     }
 }
 
-// ── Shared components ─────────────────────────────────────────────────────────
-
 @Composable
 fun SceneProgressBar(currentScene: Int, totalScenes: Int, score: Int) {
     Row(
@@ -403,7 +448,6 @@ fun SceneProgressBar(currentScene: Int, totalScenes: Int, score: Int) {
             color = HPGold
         )
         Spacer(Modifier.weight(1f))
-        // Progress dots
         Row(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalAlignment = Alignment.CenterVertically) {
             repeat(totalScenes) { i ->
                 val filled = i < currentScene
@@ -437,11 +481,11 @@ fun SceneProgressBar(currentScene: Int, totalScenes: Int, score: Int) {
 }
 
 @Composable
-fun NarrativeCard(narrative: String) {
+fun NarrativeCard(narrative: String, isTransparent: Boolean = false) {
     Surface(
         shape = RoundedCornerShape(12.dp),
-        color = Color(0xFF1C1C2E),
-        border = ButtonDefaults.outlinedButtonBorder(),
+        color = if (isTransparent) Color.Black.copy(alpha = 0.35f) else Color(0xFF1C1C2E),
+        border = BorderStroke(1.dp, HPGold.copy(alpha = 0.3f)),
         modifier = Modifier.fillMaxWidth()
     ) {
         Text(
@@ -449,13 +493,13 @@ fun NarrativeCard(narrative: String) {
             style = MaterialTheme.typography.bodyLarge,
             color = HPParchment,
             modifier = Modifier.padding(20.dp),
-            lineHeight = MaterialTheme.typography.bodyLarge.lineHeight
+            lineHeight = 24.sp
         )
     }
 }
 
 @Composable
-fun SpellButton(text: String, onClick: () -> Unit) {
+fun SpellButton(label: String, text: String, onClick: () -> Unit) {
     val haptic = LocalHapticFeedback.current
     OutlinedButton(
         onClick = {
@@ -464,20 +508,40 @@ fun SpellButton(text: String, onClick: () -> Unit) {
         },
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(10.dp),
-        border = ButtonDefaults.outlinedButtonBorder(),
-        colors = ButtonDefaults.outlinedButtonColors(contentColor = HPParchment),
-        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 14.dp)
+        border = BorderStroke(2.dp, HPGold.copy(alpha = 0.6f)),
+        colors = ButtonDefaults.outlinedButtonColors(
+            containerColor = Color(0xFF1C1C2E).copy(alpha = 0.9f),
+            contentColor = HPParchment
+        ),
+        contentPadding = PaddingValues(horizontal = 12.dp, vertical = 16.dp)
     ) {
-        Text(
-            text,
-            style = MaterialTheme.typography.bodyLarge,
-            textAlign = TextAlign.Start,
-            modifier = Modifier.fillMaxWidth(),
-            softWrap = true
-        )
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Surface(
+                shape = CircleShape,
+                color = HPGold.copy(alpha = 0.2f),
+                border = BorderStroke(1.dp, HPGold),
+                modifier = Modifier.size(36.dp)
+            ) {
+                Box(contentAlignment = Alignment.Center) {
+                    Text(
+                        text = label,
+                        color = HPGold,
+                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.ExtraBold),
+                        fontSize = 18.sp
+                    )
+                }
+            }
+            Spacer(Modifier.width(16.dp))
+            Text(
+                text = text,
+                style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Medium),
+                textAlign = TextAlign.Start,
+                modifier = Modifier.weight(1f),
+                softWrap = true
+            )
+        }
     }
 }
 
-// Legacy name kept for AppNavigation compat
 @Composable
 fun ScoreBar(score: Int) = SceneProgressBar(currentScene = 1, totalScenes = TOTAL_SCENES, score = score)

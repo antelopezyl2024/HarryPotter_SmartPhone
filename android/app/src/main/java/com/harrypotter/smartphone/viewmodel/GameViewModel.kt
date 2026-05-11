@@ -18,6 +18,7 @@ sealed class GameUiState {
         val response: SubmitDecisionResponse,
         val prevScene: Scene
     ) : GameUiState()
+    data class FinalAnimation(val ending: GetEndingResponse) : GameUiState()
     data class Ended(val ending: GetEndingResponse) : GameUiState()
     data class Error(val message: String) : GameUiState()
 }
@@ -125,9 +126,19 @@ class GameViewModel(
     private fun loadEnding(playthroughId: String) {
         viewModelScope.launch {
             runCatching { repo.getEnding(playthroughId) }
-                .onSuccess { _state.value = GameUiState.Ended(it) }
+                .onSuccess { ending ->
+                    if (ending.totalScore >= 4) {
+                        _state.value = GameUiState.FinalAnimation(ending)
+                    } else {
+                        _state.value = GameUiState.Ended(ending)
+                    }
+                }
                 .onFailure { _state.value = GameUiState.Error(it.message ?: "Failed to load ending") }
         }
+    }
+
+    fun onFinalAnimationFinished(ending: GetEndingResponse) {
+        _state.value = GameUiState.Ended(ending)
     }
 
     fun restart() { loadDLCs() }

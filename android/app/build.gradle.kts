@@ -1,3 +1,4 @@
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -15,7 +16,7 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        buildConfigField("String", "BASE_URL", "\"https://cairny-subangulate-tama.ngrok-free.dev/api/v1/\"")
+        buildConfigField("String", "BASE_URL", "\"http://10.0.2.2:8000/api/v1/\"")
         buildConfigField("Boolean", "USE_MOCK", "true")
     }
 
@@ -51,5 +52,10 @@ dependencies {
     implementation(libs.gson)
     implementation(libs.androidx.appcompat)
     implementation(libs.lottie.compose)
+    
+    // Media3 for video playback
+    implementation(libs.media3.exoplayer)
+    implementation(libs.media3.ui)
+
     debugImplementation(libs.androidx.ui.tooling)
 }

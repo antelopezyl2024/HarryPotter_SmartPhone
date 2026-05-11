@@ -18,7 +18,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.harrypotter.smartphone.data.model.DLCSummary
 import com.harrypotter.smartphone.ui.components.FloatingParticles
-import com.harrypotter.smartphone.ui.components.GoldenSnitchCanvas
 import com.harrypotter.smartphone.ui.components.HogwartsSilhouette
 import com.harrypotter.smartphone.ui.components.LottieSnitch
 import com.harrypotter.smartphone.ui.components.WandTrace
@@ -39,8 +38,14 @@ fun HomeScreen(
             )
     ) {
         FloatingParticles(count = 22)
-        HogwartsSilhouette(modifier = Modifier.align(Alignment.BottomCenter).fillMaxWidth().fillMaxHeight(0.42f))
-when (state) {
+        HogwartsSilhouette(
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .fillMaxWidth()
+                .fillMaxHeight(0.42f)
+        )
+
+        when (state) {
             is GameUiState.Loading -> LoadingOverlay()
             is GameUiState.DLCSelection -> DLCSelectionContent(state.dlcs, onSelectDLC)
             is GameUiState.Error -> ErrorContent(state.message, onRetry)
@@ -65,8 +70,9 @@ private fun DLCSelectionContent(dlcs: List<DLCSummary>, onSelect: (String) -> Un
         // Lottie spinning snitch (falls back gracefully if JSON is invalid)
         LottieSnitch(modifier = Modifier.size(80.dp))
         Spacer(Modifier.height(4.dp))
+        
         Text(
-            text = "Trapped in Harry Potter:\nRewrite the Fate",
+            text = "Choose your adventure",
             style = MaterialTheme.typography.titleLarge,
             color = HPParchment,
             textAlign = TextAlign.Center
@@ -74,13 +80,6 @@ private fun DLCSelectionContent(dlcs: List<DLCSummary>, onSelect: (String) -> Un
 
         Spacer(Modifier.height(8.dp))
         WandTrace(modifier = Modifier.fillMaxWidth().height(6.dp))
-        Spacer(Modifier.height(16.dp))
-
-        Text(
-            text = "Choose your adventure",
-            style = MaterialTheme.typography.bodyLarge,
-            color = HPParchment.copy(alpha = 0.7f)
-        )
 
         Spacer(Modifier.height(24.dp))
 
