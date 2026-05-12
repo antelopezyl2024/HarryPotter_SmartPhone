@@ -1,0 +1,70 @@
+{
+  "scene_id": "R3_THE_CORRIDOR",
+  "order": 3,
+  "title": "The Corridor",
+  "narrative": "The Defence corridor. Smashed display cases line the walls. Two Order members are slumped at the far end, unconscious. Dolohov stands at the centre, his wand tracing slow, patient arcs — waiting. He sees Remus and smiles. 'Lupin. I wondered when they'd send you.' He raises his wand. The purple flame curse leaves no incantation to block. It comes without warning. Remus knows this. Dolohov knows Remus knows this. They face each other across fifteen feet of rubble.",
+  "decision": {
+    "mode": "EITHER",
+    "choice": {
+      "options": [
+        {
+          "id": "A",
+          "text": "Protego — then Expelliarmus. Keep the distance. Let Tonks flank him while you hold his attention.",
+          "is_correct": true,
+          "feedback_hint": "Dolohov cannot cast and dodge simultaneously. Tonks disarms him from the side while his curse is blocked."
+        },
+        {
+          "id": "B",
+          "text": "Both cast at once — Dolohov can't shield two spells from two directions at the same time.",
+          "is_correct": true,
+          "feedback_hint": "Simultaneous spellfire overwhelms him. He blocks one and takes the second. The corridor is clear."
+        },
+        {
+          "id": "C",
+          "text": "Charge the gap — close the distance before he can complete the curse's windup.",
+          "is_correct": false,
+          "feedback_hint": "Dolohov anticipated exactly this. At close range the curse strikes faster, not slower. There is no windup to interrupt."
+        },
+        {
+          "id": "D",
+          "text": "Stupefy — hit him before he has the chance to speak or signal.",
+          "is_correct": false,
+          "feedback_hint": "The curse needs no incantation. Stupefy telegraphs your position and gives him the half-second he needs."
+        }
+      ]
+    },
+    "free_text": {
+      "prompt": "How do you face Dolohov?",
+      "max_chars": 240,
+      "categories": [
+        {
+          "id": "DEFENSIVE_FLANK",
+          "label": "Use Protego, shield, or defensive spell; let Tonks flank; maintain distance",
+          "is_correct": true
+        },
+        {
+          "id": "SIMULTANEOUS",
+          "label": "Both cast together, double spellfire, overwhelm from two sides at once",
+          "is_correct": true
+        },
+        {
+          "id": "CHARGE",
+          "label": "Close the distance physically, rush, charge, tackle, approach fast",
+          "is_correct": false
+        },
+        {
+          "id": "SINGLE_ATTACK",
+          "label": "Cast a single offensive spell — Stupefy, Expelliarmus alone — without a shield or flanking",
+          "is_correct": false
+        },
+        {
+          "id": "INVALID",
+          "label": "Off-topic, refusal, or nonsensical input",
+          "is_correct": false
+        }
+      ],
+      "llm_classification_criteria": "Classify into exactly one category. DEFENSIVE_FLANK when the player uses shields or Protego and lets Tonks flank. SIMULTANEOUS when the player has both Remus and Tonks cast together. CHARGE when the player closes distance physically. SINGLE_ATTACK when the player casts one offensive spell without coordination. INVALID for off-topic or nonsense."
+    }
+  },
+  "next_scene_id": "R4_THE_BREACH"
+}

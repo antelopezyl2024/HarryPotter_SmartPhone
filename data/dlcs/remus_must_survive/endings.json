@@ -1,0 +1,16 @@
+{
+  "endings": [
+    {
+      "id": "SUCCESS",
+      "title": "The Wolf Endures",
+      "score_range": {"min": 4, "max": 5},
+      "narrative": "When the last curse fades and the dawn light breaks over the rubble of Hogwarts, Remus and Tonks stand among the living. Teddy Lupin will never know the Battle of Hogwarts as the night that took his parents — only as the night they helped turn the tide. In the weeks that follow, Remus holds his son for the first time without the shadow of war over his shoulder. Some stories end differently when someone makes the right choice at the right moment."
+    },
+    {
+      "id": "FAIL",
+      "title": "The Last Lesson",
+      "score_range": {"min": 0, "max": 3},
+      "narrative": "Remus Lupin was the finest Defence Against the Dark Arts teacher Hogwarts ever had. He knew every dark creature, every counter-jinx, every rule of a duel — and still the Battle found the gap between knowing and doing. Tonks follows him into whatever comes next. Teddy grows up in a world that fought for its survival, raised by people who loved him fiercely, never quite filling the shape of those he never knew. There are victories that feel like defeats when you count who was lost."
+    }
+  ]
+}

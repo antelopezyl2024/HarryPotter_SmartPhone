@@ -1,0 +1,59 @@
+{
+  "scene_id": "R5_THE_DAWN",
+  "order": 5,
+  "title": "The Dawn",
+  "narrative": "Voldemort's voice rolls over the grounds like a physical thing: one hour. Surrender Harry Potter, and the killing stops. The castle falls silent. Remus and Tonks crouch behind a toppled stone pillar in the Entrance Hall, both breathing, both whole. Around them: friends, strangers, students who fought all night. Through a crack in the wall, the sky is beginning to pale. Someone near them whispers Teddy's name — their son, one month old, waiting somewhere safe. The hour stretches. The battle will resume. The question is whether they will still be in it when it does.",
+  "decision": {
+    "mode": "EITHER",
+    "choice": {
+      "options": [
+        {
+          "id": "A",
+          "text": "Fall back with the others. Survive the hour. Teddy needs both his parents when this ends.",
+          "is_correct": true,
+          "feedback_hint": "Remus and Tonks withdraw to the Great Hall. When the battle resumes, they fight from a position of strength — together, alive, ready."
+        },
+        {
+          "id": "B",
+          "text": "Stay at the front. The ceasefire is a trick — hold every position. This battle must be won now.",
+          "is_correct": false,
+          "feedback_hint": "The ceasefire is not a trick — but exhausted fighters who don't rest make fatal mistakes when it ends. The decision costs everything."
+        },
+        {
+          "id": "C",
+          "text": "Send Tonks to safety. Remus stays to hold the Entrance Hall through the hour.",
+          "is_correct": false,
+          "feedback_hint": "Tonks refuses to go — but the argument costs them precious seconds and draws attention. They are separated when the next wave breaks."
+        }
+      ]
+    },
+    "free_text": {
+      "prompt": "What do Remus and Tonks do during the ceasefire?",
+      "max_chars": 240,
+      "categories": [
+        {
+          "id": "FALL_BACK_TOGETHER",
+          "label": "Retreat, fall back, withdraw, rest, survive, think of Teddy — together",
+          "is_correct": true
+        },
+        {
+          "id": "HOLD_FRONT",
+          "label": "Stay, hold position, keep fighting, remain at the front during the ceasefire",
+          "is_correct": false
+        },
+        {
+          "id": "SEPARATE",
+          "label": "Send one away, split up, Remus stays while Tonks leaves or vice versa",
+          "is_correct": false
+        },
+        {
+          "id": "INVALID",
+          "label": "Off-topic, refusal, or nonsensical input",
+          "is_correct": false
+        }
+      ],
+      "llm_classification_criteria": "Classify into exactly one category. FALL_BACK_TOGETHER when the player retreats or rests with both Remus and Tonks together. HOLD_FRONT when the player remains at the front or keeps fighting during the ceasefire. SEPARATE when the player splits Remus and Tonks, sending one away while the other stays. INVALID for off-topic or nonsense."
+    }
+  },
+  "next_scene_id": null
+}

@@ -1,0 +1,59 @@
+{
+  "scene_id": "R1_THE_ARRIVAL",
+  "order": 1,
+  "title": "The Arrival",
+  "narrative": "The tunnel from the Hog's Head spills you into the Room of Requirement. The castle shakes — a curse has already struck the ramparts. Remus Lupin looks around at the assembled fighters: students, Order members, Hogwarts staff. McGonagall is issuing assignments. Then a silver Patronus streaks in — a fox, Tonks's — and speaks in her voice: 'Astronomy Tower stairs. Two Death Eaters. I'm holding them.' Remus's jaw tightens. The main line needs fighters too. He has seconds to decide.",
+  "decision": {
+    "mode": "EITHER",
+    "choice": {
+      "options": [
+        {
+          "id": "A",
+          "text": "Go to Tonks — fight together. She shouldn't be holding a staircase alone.",
+          "is_correct": true,
+          "feedback_hint": "Remus reaches Tonks in time. Together they repel both Death Eaters from the staircase and hold the tower approach."
+        },
+        {
+          "id": "B",
+          "text": "Trust Tonks to hold. Rush to the main entrance line where fighters are needed most.",
+          "is_correct": false,
+          "feedback_hint": "Tonks holds for now — but alone and under pressure, she's exposed to anything that comes from above."
+        },
+        {
+          "id": "C",
+          "text": "Wait for McGonagall's assignment. Act as a coordinated unit, not alone.",
+          "is_correct": false,
+          "feedback_hint": "Hesitation costs seconds that Tonks doesn't have. By the time an assignment comes, reinforcements are already too late to the Tower."
+        }
+      ]
+    },
+    "free_text": {
+      "prompt": "Where do you go and why?",
+      "max_chars": 240,
+      "categories": [
+        {
+          "id": "GO_TO_TONKS",
+          "label": "Go to Tonks, help her, fight together, join her on the Astronomy Tower",
+          "is_correct": true
+        },
+        {
+          "id": "FRONT_LINE",
+          "label": "Go to the main battle, entrance, great hall, or front without going to Tonks",
+          "is_correct": false
+        },
+        {
+          "id": "WAIT_ORDERS",
+          "label": "Wait, hesitate, seek orders, delay going anywhere",
+          "is_correct": false
+        },
+        {
+          "id": "INVALID",
+          "label": "Off-topic, refusal, or nonsensical input",
+          "is_correct": false
+        }
+      ],
+      "llm_classification_criteria": "Classify into exactly one category. GO_TO_TONKS when the player chooses to go to Tonks or the Astronomy Tower, alone or with others. FRONT_LINE when the player goes to the main battle or entrance without prioritising Tonks. WAIT_ORDERS when the player hesitates, seeks orders, or does not commit to moving. INVALID for off-topic or nonsense."
+    }
+  },
+  "next_scene_id": "R2_THE_CALLING"
+}

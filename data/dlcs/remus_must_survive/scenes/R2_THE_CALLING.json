@@ -1,0 +1,59 @@
+{
+  "scene_id": "R2_THE_CALLING",
+  "order": 2,
+  "title": "The Calling",
+  "narrative": "The Astronomy Tower stairs are clear. Remus and Tonks stand together in the stone corridor below, breathing hard. Then McGonagall's Patronus — a cat — finds them: 'Dolohov is in the Defence corridor. Two Order members are down. We need someone who knows how he fights.' Remus knows. Antonin Dolohov killed two Order members in the first war. He uses a particular purple flame curse that kills without an incantation. He fights best when his target is isolated. Remus looks at Tonks.",
+  "decision": {
+    "mode": "EITHER",
+    "choice": {
+      "options": [
+        {
+          "id": "A",
+          "text": "Go together. Dolohov isolates targets — don't give him the chance.",
+          "is_correct": true,
+          "feedback_hint": "Facing Dolohov as a pair removes his greatest advantage. He cannot cast the curse and guard both flanks at once."
+        },
+        {
+          "id": "B",
+          "text": "Remus goes alone. Tonks is faster — send her to the corridor above to cut off Dolohov's escape.",
+          "is_correct": false,
+          "feedback_hint": "Splitting up gives Dolohov exactly what he needs: one target, one wand, one throat."
+        },
+        {
+          "id": "C",
+          "text": "Request backup before engaging. Don't face a Death Eater of his calibre with only two wands.",
+          "is_correct": false,
+          "feedback_hint": "By the time backup arrives, Dolohov has moved deeper into the castle and more Order members are in his path."
+        }
+      ]
+    },
+    "free_text": {
+      "prompt": "What is your plan for approaching Dolohov?",
+      "max_chars": 240,
+      "categories": [
+        {
+          "id": "TOGETHER",
+          "label": "Go together, fight as a pair, side by side, both advance on Dolohov",
+          "is_correct": true
+        },
+        {
+          "id": "SPLIT",
+          "label": "Split up, one goes to Dolohov alone, send Tonks elsewhere",
+          "is_correct": false
+        },
+        {
+          "id": "WAIT_BACKUP",
+          "label": "Wait, request more fighters, delay engaging Dolohov",
+          "is_correct": false
+        },
+        {
+          "id": "INVALID",
+          "label": "Off-topic, refusal, or nonsensical input",
+          "is_correct": false
+        }
+      ],
+      "llm_classification_criteria": "Classify into exactly one category. TOGETHER when the player explicitly keeps Remus and Tonks fighting as a unit. SPLIT when the player separates them in any way, including flanking strategies that leave one alone. WAIT_BACKUP when the player requests reinforcements before engaging. INVALID for off-topic or nonsense."
+    }
+  },
+  "next_scene_id": "R3_THE_CORRIDOR"
+}

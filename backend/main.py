@@ -1,11 +1,10 @@
 """
 Harry Potter game backend — in-memory FastAPI server for demo/testing.
-Serves the Sirius Must Live DLC with deterministic scoring (no LLM required).
+Serves multiple DLCs with deterministic scoring (no LLM required).
 """
 from __future__ import annotations
 
 import json
-import re
 import uuid
 from datetime import datetime, timezone
 from pathlib import Path
@@ -19,22 +18,36 @@ app = FastAPI(title="HarryPotter Game API")
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
 
 # ---------------------------------------------------------------------------
-# Load game data at startup
+# Load all DLC data at startup
 # ---------------------------------------------------------------------------
 
-DATA_ROOT = Path(__file__).parent.parent / "data" / "dlcs" / "sirius_must_live"
+DLCS_ROOT = Path(__file__).parent.parent / "data" / "dlcs"
 
 def _load_json(path: Path) -> Any:
     return json.loads(path.read_text())
 
-manifest = _load_json(DATA_ROOT / "manifest.json")
-endings_data = _load_json(DATA_ROOT / "endings.json")
-scenes_raw: Dict[str, Any] = {}
-for scene_file in sorted((DATA_ROOT / "scenes").glob("*.json")):
-    s = _load_json(scene_file)
-    scenes_raw[s["scene_id"]] = s
+# dlc_id -> { "manifest": ..., "endings": ..., "scenes": {scene_id: raw}, "scene_order": [...] }
+DLC_REGISTRY: Dict[str, Dict] = {}
 
-SCENE_ORDER: List[str] = manifest["scene_order"]
+for dlc_dir in sorted(DLCS_ROOT.iterdir()):
+    if not dlc_dir.is_dir():
+        continue
+    manifest_path = dlc_dir / "manifest.json"
+    endings_path = dlc_dir / "endings.json"
+    scenes_dir = dlc_dir / "scenes"
+    if not (manifest_path.exists() and endings_path.exists() and scenes_dir.exists()):
+        continue
+    m = _load_json(manifest_path)
+    scenes: Dict[str, Any] = {}
+    for sf in sorted(scenes_dir.glob("*.json")):
+        s = _load_json(sf)
+        scenes[s["scene_id"]] = s
+    DLC_REGISTRY[m["dlc_id"]] = {
+        "manifest": m,
+        "endings": _load_json(endings_path),
+        "scenes": scenes,
+        "scene_order": m["scene_order"],
+    }
 
 # ---------------------------------------------------------------------------
 # In-memory state
@@ -82,11 +95,12 @@ def _build_scene(raw: Dict) -> Dict:
 
 
 def _playthrough_dict(pt: PlaythroughState) -> Dict:
+    scene_order = DLC_REGISTRY[pt.dlc_id]["scene_order"]
     return {
         "playthrough_id": pt.playthrough_id,
         "player_uuid": pt.player_uuid,
         "dlc_id": pt.dlc_id,
-        "current_scene_id": SCENE_ORDER[pt.current_scene_index] if pt.status == "IN_PROGRESS" else None,
+        "current_scene_id": scene_order[pt.current_scene_index] if pt.status == "IN_PROGRESS" else None,
         "total_score": pt.total_score,
         "status": pt.status,
         "started_at": pt.started_at,
@@ -103,12 +117,11 @@ def _is_choice_correct(scene_raw: Dict, choice_id: str) -> bool:
 
 
 def _classify_free_text(scene_raw: Dict, text: str) -> tuple[str, bool]:
-    """Simple keyword-based classifier (no LLM). Returns (category_id, is_correct)."""
-    categories = scene_raw["decision"]["free_text"].get("categories", [])
+    """Keyword-based classifier (no LLM). Returns (category_id, is_correct)."""
     text_lower = text.lower()
-
     sid = scene_raw["scene_id"]
 
+    # --- Sirius Must Live ---
     if sid == "S1_THE_VISION":
         if any(w in text_lower for w in ["mirror", "snape", "dumbledore", "order", "mcgonagall", "verify", "check"]):
             return "SAFE_VERIFICATION", True
@@ -147,7 +160,49 @@ def _classify_free_text(scene_raw: Dict, text: str) -> tuple[str, bool]:
         if any(w in text_lower for w in ["wait", "stall", "think", "maybe"]):
             return "HESITATE", False
 
-    # fallback: INVALID
+    # --- Remus Must Survive ---
+    elif sid == "R1_THE_ARRIVAL":
+        if any(w in text_lower for w in ["tonks", "astronomy", "tower", "together", "join", "help her", "go to her"]):
+            return "GO_TO_TONKS", True
+        if any(w in text_lower for w in ["great hall", "entrance", "front", "main", "alone", "without tonks"]):
+            return "FRONT_LINE", False
+        if any(w in text_lower for w in ["wait", "mcgonagall", "order", "assignment", "orders"]):
+            return "WAIT_ORDERS", False
+
+    elif sid == "R2_THE_CALLING":
+        if any(w in text_lower for w in ["together", "both", "pair", "side by side", "with tonks", "tonks with", "join"]):
+            return "TOGETHER", True
+        if any(w in text_lower for w in ["split", "alone", "send tonks", "tonks to", "by myself", "separately", "flank"]):
+            return "SPLIT", False
+        if any(w in text_lower for w in ["wait", "backup", "reinforce", "more", "request"]):
+            return "WAIT_BACKUP", False
+
+    elif sid == "R3_THE_CORRIDOR":
+        if any(w in text_lower for w in ["protego", "shield", "expelliarmus", "defend", "flank", "distance", "block"]):
+            return "DEFENSIVE_FLANK", True
+        if any(w in text_lower for w in ["both", "simultaneously", "together", "at once", "double", "two wands"]):
+            return "SIMULTANEOUS", True
+        if any(w in text_lower for w in ["charge", "rush", "close", "tackle", "grab", "run at"]):
+            return "CHARGE", False
+        if any(w in text_lower for w in ["stupefy", "attack", "curse", "hex", "blast"]):
+            return "SINGLE_ATTACK", False
+
+    elif sid == "R4_THE_BREACH":
+        if any(w in text_lower for w in ["seal", "protego maxima", "barrier", "fall back", "retreat", "regroup", "close"]):
+            return "SEAL_AND_FALL_BACK", True
+        if any(w in text_lower for w in ["hold", "fight", "stay", "stand", "duel", "wave"]):
+            return "HOLD_BY_FORCE", False
+        if any(w in text_lower for w in ["split", "separate", "tonks goes", "send tonks", "divide"]):
+            return "SPLIT_UP", False
+
+    elif sid == "R5_THE_DAWN":
+        if any(w in text_lower for w in ["fall back", "retreat", "withdraw", "rest", "survive", "teddy", "live", "regroup", "safe"]):
+            return "FALL_BACK_TOGETHER", True
+        if any(w in text_lower for w in ["stay", "hold", "fight", "front", "remain", "keep"]):
+            return "HOLD_FRONT", False
+        if any(w in text_lower for w in ["send tonks", "split", "separate", "alone", "tonks leaves", "remus stays"]):
+            return "SEPARATE", False
+
     return "INVALID", False
 
 
@@ -158,15 +213,19 @@ def _feedback_for(scene_raw: Dict, choice_id: Optional[str], category_id: Option
                 return opt.get("feedback_hint", "Your choice has been recorded.")
     if is_correct:
         return "A wise decision. The threads of fate shift in your favour."
+    dlc_hints = {
+        "remus_must_survive": "That path leads to darkness. The Lupins' fate hangs by a thread.",
+    }
     return "That path leads to shadows. Sirius's fate hangs by a thread."
 
 
-def _compute_ending(total_score: int) -> Dict:
-    for e in endings_data["endings"]:
+def _compute_ending(dlc_id: str, total_score: int) -> Dict:
+    endings = DLC_REGISTRY[dlc_id]["endings"]["endings"]
+    for e in endings:
         r = e["score_range"]
         if r["min"] <= total_score <= r["max"]:
             return e
-    return endings_data["endings"][-1]
+    return endings[-1]
 
 
 def _now() -> str:
@@ -179,12 +238,15 @@ def _now() -> str:
 @app.get("/api/v1/dlcs")
 def list_dlcs():
     return {
-        "dlcs": [{
-            "dlc_id": manifest["dlc_id"],
-            "title": manifest["title"],
-            "description": manifest["description"],
-            "max_score": manifest["max_score"],
-        }]
+        "dlcs": [
+            {
+                "dlc_id": dlc["manifest"]["dlc_id"],
+                "title": dlc["manifest"]["title"],
+                "description": dlc["manifest"]["description"],
+                "max_score": dlc["manifest"]["max_score"],
+            }
+            for dlc in DLC_REGISTRY.values()
+        ]
     }
 
 
@@ -192,6 +254,8 @@ def list_dlcs():
 def start_playthrough(body: Dict):
     player_uuid = body.get("player_uuid", str(uuid.uuid4()))
     dlc_id = body.get("dlc_id", "sirius_must_live")
+    if dlc_id not in DLC_REGISTRY:
+        raise HTTPException(404, f"DLC '{dlc_id}' not found")
     pt = PlaythroughState(
         playthrough_id=str(uuid.uuid4()),
         player_uuid=player_uuid,
@@ -199,10 +263,10 @@ def start_playthrough(body: Dict):
         started_at=_now(),
     )
     DB[pt.playthrough_id] = pt
-    first_scene_id = SCENE_ORDER[0]
+    first_scene_id = DLC_REGISTRY[dlc_id]["scene_order"][0]
     return {
         "playthrough": _playthrough_dict(pt),
-        "scene": _build_scene(scenes_raw[first_scene_id]),
+        "scene": _build_scene(DLC_REGISTRY[dlc_id]["scenes"][first_scene_id]),
     }
 
 
@@ -211,10 +275,11 @@ def get_scene(pt_id: str):
     pt = DB.get(pt_id)
     if not pt:
         raise HTTPException(404, "Playthrough not found")
-    scene_id = SCENE_ORDER[pt.current_scene_index]
+    dlc = DLC_REGISTRY[pt.dlc_id]
+    scene_id = dlc["scene_order"][pt.current_scene_index]
     return {
         "playthrough": _playthrough_dict(pt),
-        "scene": _build_scene(scenes_raw[scene_id]),
+        "scene": _build_scene(dlc["scenes"][scene_id]),
     }
 
 
@@ -226,8 +291,9 @@ def submit_decision(pt_id: str, body: Dict):
     if pt.status != "IN_PROGRESS":
         raise HTTPException(400, "Playthrough already completed")
 
-    scene_id = SCENE_ORDER[pt.current_scene_index]
-    scene_raw = scenes_raw[scene_id]
+    dlc = DLC_REGISTRY[pt.dlc_id]
+    scene_id = dlc["scene_order"][pt.current_scene_index]
+    scene_raw = dlc["scenes"][scene_id]
     mode = body.get("mode", "CHOICE")
 
     is_correct = False
@@ -256,18 +322,19 @@ def submit_decision(pt_id: str, body: Dict):
 
     # Advance scene
     pt.current_scene_index += 1
-    is_last = pt.current_scene_index >= len(SCENE_ORDER)
+    scene_order = dlc["scene_order"]
+    is_last = pt.current_scene_index >= len(scene_order)
     next_scene = None
 
     if is_last:
         pt.status = "COMPLETED"
         pt.ended_at = _now()
-        ending = _compute_ending(pt.total_score)
+        ending = _compute_ending(pt.dlc_id, pt.total_score)
         pt.ending_id = ending["id"]
         playthrough_status = "COMPLETED"
     else:
-        next_scene_id = SCENE_ORDER[pt.current_scene_index]
-        next_scene = _build_scene(scenes_raw[next_scene_id])
+        next_scene_id = scene_order[pt.current_scene_index]
+        next_scene = _build_scene(dlc["scenes"][next_scene_id])
         playthrough_status = "IN_PROGRESS"
 
     return {
@@ -289,12 +356,14 @@ def get_ending(pt_id: str):
     if pt.status != "COMPLETED":
         raise HTTPException(400, "Playthrough not yet complete")
 
-    ending = _compute_ending(pt.total_score)
+    dlc = DLC_REGISTRY[pt.dlc_id]
+    ending = _compute_ending(pt.dlc_id, pt.total_score)
+    total_scenes = len(dlc["scene_order"])
     return {
         "ending_id": pt.ending_id,
         "title": ending["title"],
         "narrative": ending["narrative"],
-        "summary": f"You scored {pt.total_score} out of {len(SCENE_ORDER)} — {'the light holds' if pt.ending_id == 'SUCCESS' else 'the darkness wins'}.",
+        "summary": f"You scored {pt.total_score} out of {total_scenes} — {'the light holds' if pt.ending_id == 'SUCCESS' else 'the darkness wins'}.",
         "total_score": pt.total_score,
         "decisions_overview": pt.decisions,
     }

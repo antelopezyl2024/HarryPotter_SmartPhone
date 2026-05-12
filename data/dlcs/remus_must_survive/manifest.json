@@ -1,0 +1,20 @@
+{
+  "dlc_id": "remus_must_survive",
+  "title": "Remus Must Survive",
+  "description": "The Battle of Hogwarts claims many lives. Stand with the Lupins to change the course of history.",
+  "version": "0.1.0",
+  "scene_order": [
+    "R1_THE_ARRIVAL",
+    "R2_THE_CALLING",
+    "R3_THE_CORRIDOR",
+    "R4_THE_BREACH",
+    "R5_THE_DAWN"
+  ],
+  "max_score": 5,
+  "scoring_mode": "binary",
+  "files": {
+    "scenes_dir": "scenes/",
+    "endings": "endings.json",
+    "lore": "lore.json"
+  }
+}

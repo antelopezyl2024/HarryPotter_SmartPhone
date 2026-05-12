@@ -1,0 +1,59 @@
+{
+  "scene_id": "R4_THE_BREACH",
+  "order": 4,
+  "title": "The Breach",
+  "narrative": "Dolohov is down. But the castle shudders — a section of the outer wall has given way. Through the dust comes a new wave of Death Eaters flooding the Entrance Hall below. McGonagall's voice carries over the chaos: three corridors need to be sealed — this one, the staircase above, and the passage to the library. Remus and Tonks cannot hold all three. The corridor they stand in is the widest — the most dangerous if left open. They have enough magic between them to seal one corridor with Protego Maxima and Reparo, or to fight the advancing wave head-on.",
+  "decision": {
+    "mode": "EITHER",
+    "choice": {
+      "options": [
+        {
+          "id": "A",
+          "text": "Seal this corridor now with Protego Maxima and fall back to regroup with the Order.",
+          "is_correct": true,
+          "feedback_hint": "The barrier holds long enough for the Order to plug the other two passages. Remus and Tonks reach safety intact."
+        },
+        {
+          "id": "B",
+          "text": "Hold the corridor by force — fight each wave until reinforcements arrive.",
+          "is_correct": false,
+          "feedback_hint": "The waves don't stop. Fighting without a barrier costs too much — they're surrounded before the third wave breaks."
+        },
+        {
+          "id": "C",
+          "text": "Split the work — Remus seals this corridor, Tonks takes the library passage alone.",
+          "is_correct": false,
+          "feedback_hint": "Splitting up leaves Tonks alone against whatever waits in the library passage. The same mistake, different corridor."
+        }
+      ]
+    },
+    "free_text": {
+      "prompt": "How do you secure the corridor?",
+      "max_chars": 240,
+      "categories": [
+        {
+          "id": "SEAL_AND_FALL_BACK",
+          "label": "Seal the corridor with a barrier spell and retreat or regroup together",
+          "is_correct": true
+        },
+        {
+          "id": "HOLD_BY_FORCE",
+          "label": "Fight the waves directly, hold position, stand and duel the oncoming Death Eaters",
+          "is_correct": false
+        },
+        {
+          "id": "SPLIT_UP",
+          "label": "Separate to cover multiple corridors, send Tonks alone to another passage",
+          "is_correct": false
+        },
+        {
+          "id": "INVALID",
+          "label": "Off-topic, refusal, or nonsensical input",
+          "is_correct": false
+        }
+      ],
+      "llm_classification_criteria": "Classify into exactly one category. SEAL_AND_FALL_BACK when the player uses a barrier or sealing spell and then retreats or regroups with allies. HOLD_BY_FORCE when the player stays to fight without a sealing strategy. SPLIT_UP when the player separates Remus and Tonks to cover different corridors. INVALID for off-topic or nonsense."
+    }
+  },
+  "next_scene_id": "R5_THE_DAWN"
+}
